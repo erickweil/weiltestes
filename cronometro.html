@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="pragma" content="no-cache">
+		<meta name="viewport" content="width=device-width, minimum-scale=1, maximum-scale=1, user-scalable=no" />
+		
+		<style>
+		body {
+		background-color: #00ff00;
+		color: #dd00dd;
+		}
+		
+		h1 {
+		font-family: Consolas, monaco, monospace; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;
+		}
+		</style>
+
+</head>
+    <body>
+        <div align="center" id="contador">
+			<h1 style="font-size:80px">
+            <span class="reloj" id="Horas">00</span><span class="reloj" id="Minutos">:00</span><span class="reloj" id="Segundos">:00</span>
+			</h1>
+        
+        <div id="botoes">
+            <input style="padding:20px" type="button" class="boton" id="inicio" value=" &#9658;" onclick="inicio();">
+            <input  style="padding:20px"type="button" class="boton" id="parar" value=" &#8718;" onclick="parar();" disabled>
+            <input  style="padding:20px"type="button" class="boton" id="reinicio" value="zerar" onclick="reinicio();" disabled>
+        </div>
+		<br/>
+		<div id="botoes2">
+            <input style="padding:20px" type="button" class="boton" id="mais1" value="+1" onclick="mais(1);">
+            <input  style="padding:20px"type="button" class="boton" id="mais5" value="+5" onclick="mais(5);">
+            <input  style="padding:20px"type="button" class="boton" id="mais10" value="+10" onclick="mais(10);">
+			<input  style="padding:20px"type="button" class="boton" id="mais30" value="+30" onclick="mais(30);">
+			<input  style="padding:20px"type="button" class="boton" id="mais60" value="+60" onclick="mais(60);">
+        </div>
+		</div>
+
+    <script>
+		var centesimas = 0;
+		//inicio();
+		
+		function mais(quanto)
+		{
+			centesimas += quanto * 6000;
+			atualizarTextos();
+		}
+		
+		function inicio () {
+			control = setInterval(cronometro,10);
+			document.getElementById("inicio").disabled = true;
+			document.getElementById("parar").disabled = false;
+			document.getElementById("reinicio").disabled = false;
+		}
+		
+		function parar () {
+			clearInterval(control);
+			document.getElementById("inicio").disabled = false;
+			document.getElementById("parar").disabled = true;
+		}
+		function reinicio () {
+			clearInterval(control);
+			centesimas = 0;
+			atualizarTextos();
+			document.getElementById("inicio").disabled = false;
+			document.getElementById("parar").disabled = true;
+			document.getElementById("reinicio").disabled = true;
+		}
+		
+		function atualizarTextos()
+		{
+			var segundos = parseInt(centesimas / 100);
+			var minutos = parseInt(segundos / 60);
+			var horas = parseInt(minutos / 60);
+
+			var cens = centesimas % 100;
+			var segs = segundos % 60;
+			var mins = minutos % 60;
+			
+			
+			//if (cens < 10) { cens = "0"+cens }
+			//Centesimas.innerHTML = ":"+cens;
+			
+			if (segs < 10) { segs = "0"+segs }
+			Segundos.innerHTML = ":"+segs;
+
+			if (mins < 10) { mins = "0"+mins }
+			Minutos.innerHTML = ":"+mins;
+
+			if (horas < 10) { horas = "0"+horas }
+			Horas.innerHTML = horas;
+		}
+		
+		function cronometro () {
+			centesimas--;
+			
+			if(centesimas <= 0)
+			{
+				centesimas = 0;
+				parar();
+			}
+
+			atualizarTextos();
+		}
+	</script>
+</body>
+
+</html>
